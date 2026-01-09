@@ -1,0 +1,88 @@
+#!/bin/bash
+# HyFocus Control Script for EWW
+# Wrapper for common HyFocus dispatcher commands
+#
+# Usage:
+#   hyfocus-control start [workspaces]  - Start focus session
+#   hyfocus-control stop                - Stop focus session
+#   hyfocus-control pause               - Pause current session
+#   hyfocus-control resume              - Resume paused session
+#   hyfocus-control toggle [workspace]  - Toggle workspace in/out of session
+#   hyfocus-control status              - Get current status
+#
+# Examples:
+#   hyfocus-control start "1 2 3"       - Start session on workspaces 1, 2, 3
+#   hyfocus-control toggle 4            - Toggle workspace 4
+
+# Check if hyprctl is available
+if ! command -v hyprctl &>/dev/null; then
+    echo "Error: hyprctl not found. Is Hyprland running?" >&2
+    exit 1
+fi
+
+# Check if Hyprland is running
+if ! hyprctl version &>/dev/null; then
+    echo "Error: Cannot connect to Hyprland" >&2
+    exit 1
+fi
+
+case "$1" in
+    start)
+        # Start focus session with optional workspace list
+        if [[ -n "$2" ]]; then
+            hyprctl dispatch "hyfocus:start $2"
+        else
+            hyprctl dispatch hyfocus:start
+        fi
+        ;;
+    stop)
+        hyprctl dispatch hyfocus:stop
+        ;;
+    pause)
+        hyprctl dispatch hyfocus:pause
+        ;;
+    resume)
+        hyprctl dispatch hyfocus:resume
+        ;;
+    toggle)
+        if [[ -n "$2" ]]; then
+            hyprctl dispatch "hyfocus:toggle $2"
+        else
+            echo "Usage: hyfocus-control toggle <workspace>" >&2
+            exit 1
+        fi
+        ;;
+    status)
+        hyprctl dispatch hyfocus:status
+        ;;
+    help|--help|-h)
+        cat <<EOF
+HyFocus Control - EWW Widget Control Script
+
+Usage: hyfocus-control <command> [args]
+
+Commands:
+  start [workspaces]  Start focus session (optionally on specific workspaces)
+  stop                Stop the current focus session
+  pause               Pause the current session
+  resume              Resume a paused session
+  toggle <workspace>  Toggle a workspace in/out of the focus session
+  status              Display current session status (via notification)
+  help                Show this help message
+
+Examples:
+  hyfocus-control start "1 2 3"   Start session on workspaces 1, 2, and 3
+  hyfocus-control start           Start session on current workspace
+  hyfocus-control toggle 4        Add or remove workspace 4 from session
+  hyfocus-control pause           Pause active session
+  hyfocus-control stop            End the session
+
+Note: Status is displayed via Hyprland notifications, not stdout.
+EOF
+        ;;
+    *)
+        echo "Usage: hyfocus-control {start|stop|pause|resume|toggle|status|help}" >&2
+        echo "Run 'hyfocus-control help' for more information." >&2
+        exit 1
+        ;;
+esac

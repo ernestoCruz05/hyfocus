@@ -1,0 +1,36 @@
+#!/bin/bash
+# Start HyFocus session with selected workspaces
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+EWW_DIR="$(dirname "$SCRIPT_DIR")"
+EWW_CMD="eww -c $EWW_DIR"
+
+# Get selections
+WORKSPACES=$($EWW_CMD get selected-workspaces)
+DURATION=$($EWW_CMD get focus-duration)
+
+if [ -z "$WORKSPACES" ]; then
+    # No workspaces selected
+    echo "error: no workspaces"
+    exit 0
+fi
+
+# Convert space-separated to comma-separated for hyprctl
+WS_LIST=$(echo "$WORKSPACES" | tr ' ' ',')
+
+# Default duration if not set
+if [ -z "$DURATION" ]; then
+    DURATION=25
+fi
+
+# Close panels first
+$EWW_CMD close hyfocus-start &
+$EWW_CMD close hyfocus-backdrop &
+
+# Reset selections
+$EWW_CMD update selected-workspaces="" &
+
+# Start the focus session with format: workspaces@duration
+hyprctl dispatch hyfocus:start "${WS_LIST}@${DURATION}"
+
+echo "ok"

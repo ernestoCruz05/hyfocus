@@ -1,0 +1,16 @@
+; HyFocus Start Panel Window
+; Centered modal for starting focus sessions
+
+(defwindow hyfocus-start
+  :monitor 1
+  :namespace "hyfocus-start"
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "340px"
+    :height "280px"
+    :anchor "center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable true
+  (start-panel))

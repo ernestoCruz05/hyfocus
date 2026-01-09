@@ -1,0 +1,12 @@
+#!/bin/bash
+# Close challenge widget and backdrop
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+EWW_DIR="$(dirname "$SCRIPT_DIR")"
+EWW_CMD="eww -c $EWW_DIR"
+
+$EWW_CMD close hyfocus-challenge &
+$EWW_CMD close hyfocus-backdrop &
+$EWW_CMD update challenge-error="" &
+
+echo "ok"

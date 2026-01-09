@@ -1,0 +1,22 @@
+// HyFocus EWW Main Stylesheet - Modern Apple-style
+
+// Import partials
+@import 'styles/_variables';
+@import 'styles/_glass';
+@import 'styles/_status';
+@import 'styles/_start-panel';
+@import 'styles/_challenge';
+@import 'styles/_flash';
+
+// Reset GTK styles
+* {
+  all: unset;
+  font-family: $font-family;
+}
+
+// Base
+.hyfocus-widget {
+  font-family: $font-family;
+  font-size: $font-size-md;
+  color: $text;
+}

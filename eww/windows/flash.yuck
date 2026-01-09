@@ -1,0 +1,17 @@
+; Flash warning window - fullscreen blur overlay
+
+(defwindow hyfocus-flash
+  :monitor 1
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "100%"
+                      :anchor "center center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "hyfocus-flash"
+  (box :class "flash-backdrop"
+       :valign "center"
+       :halign "center"
+    (flash-widget)))

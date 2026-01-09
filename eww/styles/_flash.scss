@@ -1,0 +1,17 @@
+// Flash warning - minimal centered text over blur
+
+.flash-backdrop {
+  background: transparent;
+}
+
+.flash-panel {
+  background: transparent;
+}
+
+.flash-text {
+  font-family: $font-family;
+  font-size: 56px;
+  font-weight: 500;
+  color: $text;
+  letter-spacing: -1.5px;
+}

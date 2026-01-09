@@ -1,0 +1,12 @@
+; HyFocus Flash Warning - Quick overlay that auto-closes
+
+(defvar flash-message "Stay focused")
+(defvar flash-visible false)
+
+(defwidget flash-widget []
+  (box :class "flash-panel"
+       :orientation "v"
+       :valign "center"
+       :halign "center"
+       :space-evenly false
+    (label :class "flash-text" :text "${flash-message}")))

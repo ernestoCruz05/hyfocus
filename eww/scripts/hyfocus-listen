@@ -1,0 +1,32 @@
+#!/bin/bash
+# Listen to HyFocus named pipe for real-time state updates
+# Falls back to polling if pipe doesn't exist
+
+PIPE="${XDG_RUNTIME_DIR:-/tmp}/hyfocus.pipe"
+STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/hyfocus-state.json"
+
+# Output initial/inactive state
+inactive='{"active": false, "state": "inactive", "remaining": "00:00", "workspaces": []}'
+
+# If pipe exists, listen to it
+if [[ -p "$PIPE" ]]; then
+    # Output current state file first (if exists)
+    if [[ -f "$STATE_FILE" ]]; then
+        cat "$STATE_FILE"
+    else
+        echo "$inactive"
+    fi
+    
+    # Then listen for updates
+    tail -f "$PIPE" 2>/dev/null
+else
+    # Fallback: poll the state file
+    while true; do
+        if [[ -f "$STATE_FILE" ]]; then
+            cat "$STATE_FILE"
+        else
+            echo "$inactive"
+        fi
+        sleep 1
+    done
+fi

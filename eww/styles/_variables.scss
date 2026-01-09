@@ -1,0 +1,51 @@
+// HyFocus - Native Minimal
+
+// Glass - pure translucent
+$bg-glass: rgba(30, 30, 30, 0.7);
+$bg-subtle: rgba(255, 255, 255, 0.04);
+
+$text: rgba(255, 255, 255, 0.92);
+$text-secondary: rgba(255, 255, 255, 0.5);
+$text-muted: rgba(255, 255, 255, 0.3);
+$text-primary: $text;
+
+// Monochrome buttons
+$btn-primary-bg: rgba(255, 255, 255, 0.9);
+$btn-primary-text: rgba(0, 0, 0, 0.85);
+$btn-secondary-bg: rgba(255, 255, 255, 0.08);
+$btn-secondary-text: rgba(255, 255, 255, 0.7);
+
+// Semantic
+$error: #FF453A;
+
+// Sizing
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 14px;
+$radius-full: 100px;
+
+// Typography
+$font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+$font-size-xs: 11px;
+$font-size-sm: 13px;
+$font-size-md: 15px;
+$font-size-lg: 17px;
+$font-size-xl: 20px;
+
+// Compat aliases
+$subtext0: $text-secondary;
+$overlay1: $text-muted;
+$font-family: $font;
+$accent: $btn-primary-bg;
+$accent-hover: rgba(255, 255, 255, 1);
+$surface: $bg-subtle;
+$surface-hover: rgba(255, 255, 255, 0.08);
+$border-radius: $radius-md;
+$border-radius-sm: $radius-sm;
+$border-radius-full: $radius-full;
+
+// Status compat
+$glass-bg: $bg-glass;
+$glass-border: rgba(255, 255, 255, 0.06);
+$success: #32D74B;
+$warning: #FF9F0A;

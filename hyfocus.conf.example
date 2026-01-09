@@ -1,0 +1,74 @@
+# HyFocus Hyprland Configuration
+# Add these to your hyprland.conf
+
+# ─────────────────────────────────────────────────────────────────
+# Plugin Configuration
+# ─────────────────────────────────────────────────────────────────
+plugin {
+    hyfocus {
+        # Timer settings (in minutes)
+        total_duration = 120         # Total session duration
+        work_interval = 25           # Pomodoro work interval
+        break_interval = 5           # Break interval
+        
+        # Enforcement settings
+        enforce_during_break = 0     # 0 = allow all workspaces during breaks
+        
+        # Animation settings
+        shake_intensity = 15         # Pixels to shake on blocked switch
+        shake_duration = 300         # Shake duration in ms
+        shake_frequency = 50         # Oscillation frequency in ms
+        
+        # EWW integration (optional - use EWW widgets instead of Hyprland notifications)
+        # Set to 0 to use plain Hyprland notifications instead
+        use_eww_notifications = 1
+        eww_config_path = ~/.config/hyfocus-eww
+        
+        # Window classes exempt from enforcement (always accessible)
+        exception_classes = eww,rofi,wofi,dmenu,ulauncher,1Password
+        
+        # Spawn blocking
+        block_spawn = 1              # Block launching apps during focus
+        spawn_whitelist =            # Apps allowed to launch (comma-separated)
+        
+        # Exit challenge (makes stopping harder to discourage quitting)
+        # 0 = disabled, 1 = type phrase, 2 = math problem, 3 = countdown
+        exit_challenge_type = 2
+        exit_challenge_phrase = I want to stop focusing
+    }
+}
+
+# ─────────────────────────────────────────────────────────────────
+# Layerrules for glass blur effect on EWW widgets (Hyprland 0.53+)
+# ─────────────────────────────────────────────────────────────────
+layerrule = blur on, match:namespace hyfocus-flash
+layerrule = blur on, match:namespace hyfocus-start
+layerrule = blur on, match:namespace hyfocus-challenge
+layerrule = blur on, match:namespace hyfocus-backdrop
+layerrule = blur on, match:namespace hyfocus-status
+
+layerrule = ignore_alpha 0.3, match:namespace hyfocus-flash
+layerrule = ignore_alpha 0.3, match:namespace hyfocus-start
+layerrule = ignore_alpha 0.3, match:namespace hyfocus-challenge
+layerrule = ignore_alpha 0.3, match:namespace hyfocus-status
+
+# ─────────────────────────────────────────────────────────────────
+# Autostart EWW daemon
+# ─────────────────────────────────────────────────────────────────
+exec-once = eww daemon -c ~/.config/hyfocus-eww
+
+# ─────────────────────────────────────────────────────────────────
+# Keybinds (with EWW widgets)
+# ─────────────────────────────────────────────────────────────────
+# Open start panel UI
+bind = $mainMod, F, exec, ~/.config/hyfocus-eww/scripts/open-start
+
+# Stop session (opens challenge UI if enabled)
+bind = $mainMod CTRL, F, exec, ~/.config/hyfocus-eww/scripts/show-challenge
+
+# Force stop (bypasses challenge, no UI)
+bind = $mainMod CTRL SHIFT, F, hyfocus:stop, force
+
+# Pause/resume
+bind = $mainMod, P, hyfocus:pause,
+bind = $mainMod SHIFT, P, hyfocus:resume,

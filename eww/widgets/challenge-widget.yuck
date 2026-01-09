@@ -1,0 +1,34 @@
+; HyFocus Challenge - Minimal
+
+(defvar challenge-problem "")
+(defvar challenge-answer "")
+(defvar challenge-error "")
+(defvar challenge-input "")
+
+(defwidget challenge-widget []
+  (box :class "glass-panel challenge-panel"
+       :orientation "v"
+       :space-evenly false
+    
+    ; Header
+    (box :class "challenge-header" :orientation "v" :space-evenly false
+      (label :class "challenge-title" :text "Exit Challenge")
+      (label :class "challenge-subtitle" :text "Solve to end session"))
+    
+    ; Problem with input inline
+    (box :class "problem-box" :halign "center" :orientation "h" :spacing 8
+      (label :class "problem-text" :text "${challenge-problem}")
+      (input :class "answer-input"
+             :onchange "eww -c /home/sof/dev/forks/hyfocus/eww update challenge-input='{}'"
+             :onaccept "scripts/submit-challenge-input '{}'"
+             :timeout "300s"))
+    
+    ; Error
+    (revealer :reveal {challenge-error != ""} :transition "slidedown" :duration "150ms"
+      (box :class "error-box"
+        (label :class "error-text" :text "${challenge-error}")))
+    
+    ; Actions
+    (box :class "challenge-actions" :orientation "h" :space-evenly true :spacing 12
+      (button :class "stay-btn" :onclick "scripts/close-challenge" "Stay")
+      (button :class "submit-btn" :onclick "scripts/submit-challenge-btn" "Submit"))))

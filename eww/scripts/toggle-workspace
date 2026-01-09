@@ -1,0 +1,29 @@
+#!/bin/bash
+# Toggle workspace selection for HyFocus start panel
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+EWW_DIR="$(dirname "$SCRIPT_DIR")"
+EWW_CMD="eww -c $EWW_DIR"
+WS_NUM="$1"
+
+if [ -z "$WS_NUM" ]; then
+    exit 1
+fi
+
+# Get current selection
+CURRENT=$($EWW_CMD get selected-workspaces)
+
+# Check if workspace is already selected
+if echo "$CURRENT" | grep -qw "$WS_NUM"; then
+    # Remove it
+    NEW=$(echo "$CURRENT" | sed "s/\b$WS_NUM\b//g" | tr -s ' ' | sed 's/^ //;s/ $//')
+else
+    # Add it
+    if [ -z "$CURRENT" ]; then
+        NEW="$WS_NUM"
+    else
+        NEW="$CURRENT $WS_NUM"
+    fi
+fi
+
+$EWW_CMD update selected-workspaces="$NEW"

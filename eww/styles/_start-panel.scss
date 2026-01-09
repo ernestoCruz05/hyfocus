@@ -1,0 +1,108 @@
+// Start Panel - Native minimal
+
+.start-panel {
+  padding: 24px 28px;
+}
+
+.panel-header {
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text;
+  letter-spacing: -0.3px;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.section-label {
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $text-muted;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+// Workspace - no background box
+.workspace-selector {
+  padding: 0;
+}
+
+.workspace-btn {
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $text-muted;
+  font-size: $font-size-sm;
+  font-weight: 500;
+
+  &:hover {
+    color: $text;
+  }
+
+  &.selected {
+    background: rgba(255, 255, 255, 0.15);
+    color: $text;
+  }
+}
+
+// Duration - no background box
+.duration-selector {
+  padding: 0;
+}
+
+.duration-btn {
+  min-height: 28px;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $text-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  padding: 6px 14px;
+
+  &:hover {
+    color: $text-secondary;
+  }
+
+  &.selected {
+    background: rgba(255, 255, 255, 0.12);
+    color: $text;
+  }
+}
+
+// Actions - monochrome
+.start-actions {
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  padding: 10px 22px;
+  border-radius: $radius-full;
+  background: $btn-secondary-bg;
+  color: $btn-secondary-text;
+  font-size: $font-size-sm;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: $text;
+  }
+}
+
+.start-btn {
+  padding: 10px 28px;
+  border-radius: $radius-full;
+  background: $btn-primary-bg;
+  color: $btn-primary-text;
+  font-size: $font-size-sm;
+  font-weight: 600;
+
+  &:hover {
+    background: $accent-hover;
+  }
+}

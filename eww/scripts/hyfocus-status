@@ -1,0 +1,55 @@
+#!/bin/bash
+# HyFocus Status Script for EWW
+# Queries HyFocus plugin state and outputs JSON for EWW consumption
+#
+# Output format:
+# {"active": bool, "state": "working|break|paused|inactive", "remaining": "MM:SS", "workspaces": [1,2,3]}
+#
+# Note: hyfocus:status outputs via notification, not stdout.
+# This script uses a workaround by checking if the plugin is loaded
+# and parsing what state information is available.
+
+# Check if HyFocus plugin is loaded
+plugin_loaded() {
+    hyprctl plugins list 2>/dev/null | grep -q "hyfocus"
+}
+
+# Default inactive state
+output_inactive() {
+    echo '{"active": false, "state": "inactive", "remaining": "00:00", "workspaces": []}'
+}
+
+# Main logic
+main() {
+    # Check if hyprctl is available
+    if ! command -v hyprctl &>/dev/null; then
+        output_inactive
+        exit 0
+    fi
+
+    # Check if Hyprland is running
+    if ! hyprctl version &>/dev/null; then
+        output_inactive
+        exit 0
+    fi
+
+    # Check if HyFocus plugin is loaded
+    if ! plugin_loaded; then
+        output_inactive
+        exit 0
+    fi
+
+    # Check if there's a HyFocus state file (plugin writes state here)
+    # DO NOT call hyfocus:status - it triggers notifications!
+    state_file="${XDG_RUNTIME_DIR:-/tmp}/hyfocus-state.json"
+    if [[ -f "$state_file" ]]; then
+        cat "$state_file"
+        exit 0
+    fi
+
+    # Fallback: Plugin loaded but no detailed state available
+    # This indicates the plugin is ready but no session is active
+    echo '{"active": false, "state": "inactive", "remaining": "00:00", "workspaces": []}'
+}
+
+main "$@"

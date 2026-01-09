@@ -1,0 +1,20 @@
+#!/bin/bash
+# Submit challenge answer from button click (reads from challenge-input variable)
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+EWW_DIR="$(dirname "$SCRIPT_DIR")"
+EWW_CMD="eww -c $EWW_DIR"
+
+INPUT=$($EWW_CMD get challenge-input)
+ANSWER=$($EWW_CMD get challenge-answer)
+
+if [ "$INPUT" = "$ANSWER" ]; then
+    # Correct! Stop the session
+    hyprctl dispatch hyfocus:stop force &
+    $EWW_CMD close hyfocus-challenge &
+    $EWW_CMD close hyfocus-backdrop &
+    $EWW_CMD update challenge-error="" challenge-problem="" challenge-answer="" challenge-input="" &
+else
+    # Wrong answer
+    $EWW_CMD update challenge-error="Incorrect answer. Try again." &
+fi

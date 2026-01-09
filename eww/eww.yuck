@@ -1,0 +1,58 @@
+; HyFocus EWW Main Configuration
+
+; ============================================================
+; Shared Variables - using named pipe for instant updates
+; ============================================================
+
+; Listen to named pipe for real-time state updates (JSON stream)
+(deflisten hyfocus-data
+  :initial '{"active": false, "state": "inactive", "remaining": "00:00", "workspaces": []}'
+  `scripts/hyfocus-listen`)
+
+; Extract individual fields from JSON using EWW's JSON access
+(defvar _hyfocus-dummy "") ; dummy for initialization
+
+; ============================================================
+; Includes
+; ============================================================
+; Window and widget definitions
+
+; Include widgets (must come before windows that use them)
+(include "widgets/status-widget.yuck")
+(include "widgets/control-panel.yuck")
+(include "widgets/start-panel-widget.yuck")
+(include "widgets/challenge-widget.yuck")
+(include "widgets/flash-widget.yuck")
+
+; Include windows
+(include "windows/status.yuck")
+(include "windows/backdrop.yuck")
+(include "windows/start-panel.yuck")
+(include "windows/challenge.yuck")
+(include "windows/flash.yuck")
+
+; ============================================================
+; Placeholder Test Window
+; ============================================================
+; A minimal window to verify EWW daemon starts correctly
+; This will be replaced by actual widgets in later plans
+
+(defwindow hyfocus-test
+  :monitor 0
+  :geometry (geometry
+    :x "10px"
+    :y "10px"
+    :width "200px"
+    :height "50px"
+    :anchor "top right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "hyfocus-test"
+  (box
+    :class "glass-panel hyfocus-widget p-md"
+    :orientation "horizontal"
+    :space-evenly false
+    (label
+      :class "text-secondary"
+      :text "HyFocus: ${hyfocus-data.state}")))

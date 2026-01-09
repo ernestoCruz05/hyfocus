@@ -1,0 +1,45 @@
+; HyFocus Start Panel - Minimal
+
+(defvar selected-workspaces "")
+(defvar focus-duration "25")
+
+; Workspace toggle
+(defwidget ws-btn [num]
+  (button 
+    :class "workspace-btn ${matches(selected-workspaces, '.*\\b${num}\\b.*') ? 'selected' : ''}"
+    :onclick "scripts/toggle-workspace ${num}"
+    "${num}"))
+
+; Duration toggle  
+(defwidget dur-btn [mins]
+  (button 
+    :class "duration-btn ${focus-duration == '${mins}' ? 'selected' : ''}"
+    :onclick "eww -c /home/sof/dev/forks/hyfocus/eww update focus-duration=${mins}"
+    "${mins}m"))
+
+(defwidget start-panel []
+  (box :class "glass-panel start-panel"
+       :orientation "v"
+       :space-evenly false
+    
+    ; Header
+    (box :class "panel-header"
+      (label :class "panel-title" :text "Start Focus"))
+    
+    ; Workspaces
+    (box :class "section" :orientation "v" :space-evenly false
+      (label :class "section-label" :text "WORKSPACES")
+      (box :class "workspace-selector" :orientation "h" :space-evenly true :spacing 2
+        (ws-btn :num 1) (ws-btn :num 2) (ws-btn :num 3) (ws-btn :num 4) (ws-btn :num 5)
+        (ws-btn :num 6) (ws-btn :num 7) (ws-btn :num 8) (ws-btn :num 9) (ws-btn :num 10)))
+    
+    ; Duration
+    (box :class "section" :orientation "v" :space-evenly false
+      (label :class "section-label" :text "DURATION")
+      (box :class "duration-selector" :orientation "h" :space-evenly true :spacing 2
+        (dur-btn :mins 15) (dur-btn :mins 25) (dur-btn :mins 45) (dur-btn :mins 60)))
+    
+    ; Actions
+    (box :class "start-actions" :orientation "h" :space-evenly true :spacing 12
+      (button :class "cancel-btn" :onclick "scripts/close-start" "Cancel")
+      (button :class "start-btn" :onclick "scripts/start-session" "Start"))))

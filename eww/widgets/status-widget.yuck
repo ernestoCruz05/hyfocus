@@ -1,0 +1,15 @@
+; HyFocus Status Indicator Widget
+; Shows focus state icon and remaining time
+
+(defwidget status-indicator []
+  (revealer :transition "slidedown"
+            :reveal {hyfocus-data.active}
+            :duration "300ms"
+    (box :class "status-container ${hyfocus-data.state}"
+         :orientation "h"
+         :space-evenly false
+      (label :class "status-icon"
+             :text {hyfocus-data.state == "working" ? "󰔟" :
+                    hyfocus-data.state == "break" ? "󰒲" :
+                    hyfocus-data.state == "paused" ? "󰏤" : "󰐊"})
+      (label :class "status-time" :text {hyfocus-data.remaining}))))

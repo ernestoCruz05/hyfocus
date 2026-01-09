@@ -1,0 +1,77 @@
+; HyFocus Control Panel Widget
+; Allows starting/stopping sessions and shows current status
+
+(defwidget control-panel []
+  (box :class "glass-panel control-container"
+       :orientation "v"
+       :space-evenly false
+       :spacing 12
+    
+    ; Header
+    (box :class "control-header"
+         :orientation "h"
+         :space-evenly false
+      (label :class "control-title" :text "󰔟 HyFocus")
+      (box :hexpand true)
+      (button :class "control-close"
+              :onclick "scripts/close-control"
+              "󰅖"))
+    
+    ; Status display
+    (box :class "control-status"
+         :orientation "h"
+         :space-evenly false
+         :spacing 8
+      (label :class "status-icon ${hyfocus-data.state}"
+             :text {hyfocus-data.state == "working" ? "󰔟" :
+                    hyfocus-data.state == "break" ? "󰒲" :
+                    hyfocus-data.state == "paused" ? "󰏤" : "󰐊"})
+      (label :class "status-label"
+             :text {hyfocus-data.state == "working" ? "Focus Time" :
+                    hyfocus-data.state == "break" ? "Break Time" :
+                    hyfocus-data.state == "paused" ? "Paused" : "Inactive"})
+      (box :hexpand true)
+      (label :class "status-time-large" :text {hyfocus-data.remaining}))
+    
+    ; Action buttons
+    (box :class "control-actions"
+         :orientation "h"
+         :space-evenly true
+         :spacing 8
+      
+      ; Start button (shown when inactive)
+      (revealer :reveal {!hyfocus-data.active}
+                :transition "slideleft"
+        (button :class "btn btn-primary"
+                :onclick "scripts/hyfocus-control start 1,2,3"
+                "󰐊 Start"))
+      
+      ; Pause button (shown when working)
+      (revealer :reveal {hyfocus-data.state == "working"}
+                :transition "slideleft"
+        (button :class "btn btn-warning"
+                :onclick "scripts/hyfocus-control pause"
+                "󰏤 Pause"))
+      
+      ; Resume button (shown when paused)
+      (revealer :reveal {hyfocus-data.state == "paused"}
+                :transition "slideleft"
+        (button :class "btn btn-primary"
+                :onclick "scripts/hyfocus-control resume"
+                "󰐊 Resume"))
+      
+      ; Stop button (shown when active)
+      (revealer :reveal {hyfocus-data.active}
+                :transition "slideright"
+        (button :class "btn btn-danger"
+                :onclick "scripts/hyfocus-control stop"
+                "󰓛 Stop")))
+    
+    ; Workspace info
+    (revealer :reveal {hyfocus-data.active}
+              :transition "slidedown"
+      (box :class "control-info"
+           :orientation "h"
+           :space-evenly false
+        (label :class "info-label" :text "Workspaces: ")
+        (label :class "info-value" :text {hyfocus-data.workspaces})))))
