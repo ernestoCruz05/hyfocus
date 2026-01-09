@@ -14,7 +14,7 @@
 (defwidget dur-btn [mins]
   (button 
     :class "duration-btn ${focus-duration == '${mins}' ? 'selected' : ''}"
-    :onclick "eww -c /home/sof/dev/forks/hyfocus/eww update focus-duration=${mins}"
+    :onclick "scripts/update-focus-duration ${mins}"
     "${mins}m"))
 
 (defwidget start-panel []

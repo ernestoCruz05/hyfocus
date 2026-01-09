@@ -19,7 +19,7 @@
     (box :class "problem-box" :halign "center" :orientation "h" :spacing 8
       (label :class "problem-text" :text "${challenge-problem}")
       (input :class "answer-input"
-             :onchange "eww -c /home/sof/dev/forks/hyfocus/eww update challenge-input='{}'"
+             :onchange "scripts/update-challenge-input '{}'"
              :onaccept "scripts/submit-challenge-input '{}'"
              :timeout "300s"))
     
